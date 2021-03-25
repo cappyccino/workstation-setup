@@ -14,3 +14,13 @@ pushd /usr/local/etc/bash_completion.d
 popd
 
 set -e
+
+cat <<EOT >> ~/.zshrc
+############
+## Docker ##
+############
+
+alias dc="docker-compose"
+alias docker-size="docker system df"
+
+EOT

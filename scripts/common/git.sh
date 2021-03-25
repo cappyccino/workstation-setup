@@ -1,48 +1,32 @@
 echo
-echo "Installing Git and associated tools"
+echo "Installing Git"
 brew install git
-brew tap git-duet/tap
-brew install git-duet
-brew install git-pair
-brew install git-together
-brew install git-author
-brew install vim
-
-brew install --cask rowanj-gitx
-brew install --cask sourcetree
-brew install --cask gitup
-
-echo
-echo "Putting a sample git-pair file in ~/.pairs"
-cp files/.pairs ~/.pairs
 
 echo
 echo "Setting global Git configurations"
 git config --global core.editor /usr/local/bin/vim
 git config --global transfer.fsckobjects true
 
-mkdir -p ~/.git_templates
-git config --global init.templateDir ~/.git_templates
-echo "ref: refs/heads/main" > ~/.git_templates/HEAD
+echo
+echo "Installing Git-Together"
+echo "https://github.com/kejadlen/git-together"
+brew install git-together
 
-HOOKS_DIRECTORY=$HOME/workspace/git-hooks-core
-if [ ! -d $HOOKS_DIRECTORY ]; then
-  echo
-  echo "Installing git hooks for cred-alert"
-  # for more information see https://github.com/pivotal-cf/git-hooks-core
-  git clone https://github.com/pivotal-cf/git-hooks-core $HOOKS_DIRECTORY
-  git config --global --add core.hooksPath $HOOKS_DIRECTORY
-else
-  echo
-  echo "Updating git-hooks for cred-alert"
-  pushd $HOOKS_DIRECTORY
-  git pull -r
-  popd
-fi
+echo
+echo "Configuring Git-Together"
+# `git-together` is meant to be aliased as `git`
+echo "echo 'alias git=git-together' >> ~/.bash_profile"
 
-# install cred-alert-cli
-os_name=$(uname | awk '{print tolower($1)}')
-curl -o cred-alert-cli \
-  https://s3.amazonaws.com/cred-alert/cli/current-release/cred-alert-cli_${os_name}
-chmod 755 cred-alert-cli
-mv cred-alert-cli /usr/local/bin # <= or other directory in ${PATH}
+# Use .git-together per project for author configuration
+git config --add include.path ../.git-together
+# Or use one .git-together for all projects
+git config --global --add include.path ~/.git-together
+
+# Setting the default domain
+git config --file .git-together --add git-together.domain vmware.com
+# Adding myself
+git config --file .git-together --add git-together.authors.nn 'Cappy Hausfeld; chausfeld'
+
+echo
+echo "Installing Vim"
+brew install vim

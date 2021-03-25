@@ -21,7 +21,6 @@ defaults write com.apple.finder '_FXShowPosixPathInTitle' -bool true
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 #to revert use defaults -currentHost delete com.apple.ImageCapture disableHotPlug
 
-
 # modify appearance of dock: remove standard icons, add chrome and iTerm
 if [ ! -e /usr/local/bin/dockutil ]; then
     curl https://raw.githubusercontent.com/kcrawford/dockutil/master/scripts/dockutil > /usr/local/bin/dockutil
